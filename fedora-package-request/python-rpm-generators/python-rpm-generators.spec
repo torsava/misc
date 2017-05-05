@@ -17,11 +17,10 @@
 %global bootstrapping_python 0
 
 
-# When bootstrapping Python, disable automatic bytecompilation
-# in %%__os_install_post.
-%if 0%{?bootstrapping_python}
+# Disable automatic (Python 2) bytecompilation in %%__os_install_post.
+# When not in bootstrapping mode, the scripts are bytecompiled
+# in the %%install section.
 %undefine py_auto_byte_compile
-%endif
 
 %global srcname rpm
 
@@ -42,7 +41,7 @@ Source0:        http://ftp.rpm.org/releases/%{srcdir}/%{srcname}-%{srcver}.tar.b
 
 BuildArch:      noarch
 
-%if 0%{?bootstrapping_python} == 0
+%if ! 0%{?bootstrapping_python}
 BuildRequires:  python3-devel
 %endif
 
@@ -78,7 +77,7 @@ and add appropriate Provides and Requires tags to them.
 
 
 %build
-%if 0%{?bootstrapping_python} == 0
+%if ! 0%{?bootstrapping_python}
 %{__python3} -m compileall scripts/
 %endif
 
@@ -89,7 +88,7 @@ install -Dm 755 scripts/pythondeps.sh \
                 scripts/pythondistdeps.py \
                 -t %{buildroot}/%{_rpmconfigdir}
 
-%if 0%{?bootstrapping_python} == 0
+%if ! 0%{?bootstrapping_python}
 install -Dm 755 scripts/__pycache__/* \
                 -t %{buildroot}/%{_rpmconfigdir}/__pycache__
 %endif
@@ -100,7 +99,7 @@ install -Dm 755 scripts/__pycache__/* \
 %{_rpmconfigdir}/pythondeps.sh
 %{_rpmconfigdir}/pythondistdeps.py
 
-%if 0%{?bootstrapping_python} == 0
+%if ! 0%{?bootstrapping_python}
 %{_rpmconfigdir}/__pycache__/*
 %endif
 
