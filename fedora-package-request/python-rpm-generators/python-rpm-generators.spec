@@ -66,6 +66,7 @@ and add appropriate Provides and Requires tags to them.
 %package -n     python3-rpm-generators
 Summary:        %{summary}
 Requires:       python3-setuptools
+%{?python_provide:%python_provide python3-rpm-generators}
 
 %description -n python3-rpm-generators
 This package provides scripts that analyse Python binary RPM packages
