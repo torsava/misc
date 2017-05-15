@@ -32,7 +32,7 @@
 %global srcdir %{?snapver:testing}%{!?snapver:rpm-%(echo %{version} | cut -d'.' -f1-2).x}
 
 Name:           python-rpm-generators
-Summary:        The Python RPM dependency and provides generators
+Summary:        Requires and Provides generators for Python RPMs
 Version:        %{rpmver}
 Release:        %{?snapver:0.%{snapver}.}1%{?dist}
 License:        GPLv2+
